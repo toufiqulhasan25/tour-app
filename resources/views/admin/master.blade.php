@@ -241,6 +241,25 @@ PREMIUM ADMIN DASHBOARD STYLES
         }
         .topbar .navbar-search { display: none; }
     }
+
+    .user-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #3f51b5; /* নীল রঙ */
+    color: #ffffff;
+    border-radius: 50%; /* গোল করার জন্য */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+ /* Dropdown Styling */
+        #statusSelect {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 700;
+        }
 </style>
 
 <div id="wrapper">
@@ -256,41 +275,32 @@ PREMIUM ADMIN DASHBOARD STYLES
 
         <hr class="sidebar-divider my-0">
 
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span></a>
-        </li>
-
-        <hr class="sidebar-divider">
 
         <div class="sidebar-heading">
             Management
         </div>
 
-        <li class="nav-item active">
-            <a class="nav-link" href="#">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('home') }}">
                 <i class="fas fa-fw fa-users"></i>
                 <span>Students List</span></a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('courses.index') }}">
                 <i class="fas fa-fw fa-book-open"></i>
                 <span>Courses</span></a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('courses.courseWise', 4) }}">
                 <i class="fas fa-fw fa-chalkboard-teacher"></i>
                 <span>Teachers</span></a>
         </li>
 
         <hr class="sidebar-divider d-none d-md-block">
 
-        <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle border-0" id="sidebarToggle"><i class="fas fa-chevron-left text-white-50"></i></button>
-        </div>
+        
 
     </ul>
     <div id="content-wrapper" class="d-flex flex-column">
@@ -317,21 +327,24 @@ PREMIUM ADMIN DASHBOARD STYLES
 
                 <ul class="navbar-nav ml-auto ms-auto align-items-center">
 
-                    <li class="nav-item dropdown no-arrow mx-1">
+                    <!-- <li class="nav-item dropdown no-arrow mx-1">
                         <a class="nav-link dropdown-toggle" href="#" role="button">
                             <i class="fas fa-bell fa-fw text-gray-600"></i>
                             <span class="badge bg-danger badge-counter rounded-circle">3+</span>
                         </a>
-                    </li>
+                    </li> -->
 
                     <div class="topbar-divider d-none d-sm-block"></div>
 
                     <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button"
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small fw-semibold me-2">Admin User</span>
-                            <img class="img-profile rounded-circle"
-                                 src="https://ui-avatars.com/api/?name=Admin+User&background=4e73df&color=ffffff" width="40">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small fw-semibold me-2">
+                                {{ auth()->user()->name }}
+                            </span>
+                            <div class="user-avatar">
+                                {{ auth()->user()->initials }}
+                            </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
                              aria-labelledby="userDropdown">
@@ -363,10 +376,18 @@ PREMIUM ADMIN DASHBOARD STYLES
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800 fw-bold">Student Management</h1>
-                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-brand-primary shadow-sm fw-bold">
-                        <i class="fas fa-download fa-sm text-white-50 me-2"></i>Generate Report
-                    </a>
+
+                    <div>
+                        <a href="{{ route('tourist.create') }}" class="d-inline-block btn btn-primary btn-sm btn-brand-primary shadow-sm fw-bold me-2">
+                            <i class="fas fa-plus fa-sm text-white-50 me-2"></i>Add Student
+                        </a>
+
+                        <a href="#" class="d-inline-block btn btn-sm btn-brand-primary shadow-sm fw-bold">
+                            <i class="fas fa-download fa-sm text-white-50 me-2"></i>Generate Report
+                        </a>
+                    </div>
                 </div>
+                
 
                 <div class="row g-4 mb-4">
                     <div class="col-xl-3 col-md-6 mb-4">
@@ -376,7 +397,7 @@ PREMIUM ADMIN DASHBOARD STYLES
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 fw-bold">
                                             Total Students</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800 fw-bold">1,520</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800 fw-bold">{{ number_format($totalStudents) }}</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-users fa-2x text-gray-300 opacity-50"></i>
@@ -393,7 +414,7 @@ PREMIUM ADMIN DASHBOARD STYLES
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1 fw-bold">
                                             Active</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800 fw-bold">1,350</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800 fw-bold">{{ $activeStudents }}</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-user-check fa-2x text-gray-300 opacity-50"></i>
@@ -410,7 +431,23 @@ PREMIUM ADMIN DASHBOARD STYLES
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1 fw-bold">
                                             Pending Requests</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800 fw-bold">45</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800 fw-bold">{{ $pendingStudents }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-hourglass-half fa-2x text-gray-300 opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-danger shadow-sm h-100 py-2 card-hover">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1 fw-bold">
+                                            Rejected Requests</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800 fw-bold">{{ $rejectedStudents }}</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-hourglass-half fa-2x text-gray-300 opacity-50"></i>
@@ -420,108 +457,10 @@ PREMIUM ADMIN DASHBOARD STYLES
                         </div>
                     </div>
 
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-0 shadow-sm h-100 py-2 bg-brand-primary text-white card-hover" style="cursor: pointer;">
-                            <div class="card-body d-flex align-items-center justify-content-center">
-                                <div class="text-center">
-                                    <i class="fas fa-user-plus fa-2x mb-2"></i>
-                                    <h6 class="fw-bold m-0">Register New Student</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
-                <div class="card shadow mb-4 border-0 rounded-3 overflow-hidden">
-                    <div class="card-header py-3 bg-white d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-brand-primary">All Students Data Table</h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle btn btn-sm btn-light" href="#" role="button" id="dropdownMenuLink"
-                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i> Filters
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end shadow animated--fade-in"
-                                 aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-header">Filter By Status:</div>
-                                <a class="dropdown-item" href="#">Show Active Only</a>
-                                <a class="dropdown-item" href="#">Show Pending Only</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Export CSV</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-striped-custom align-middle mb-0" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th class="ps-4">Student Profile</th>
-                                    <th>Contact Info</th>
-                                    <th>Course & Batch</th>
-                                    <th>Status</th>
-                                    <th class="text-end pe-4">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($tourists as $tourist)
-                                <tr>
-                                    <td class="ps-4">
-                                        <div class="d-flex align-items-center py-2">
-                                            <div>
-                                                <h6 class="mb-0 text-dark fw-bold">{{$tourist->name}}</h6>
-                                                <small class="text-muted text-uppercase fw-semibold ls-1">{{$tourist->student_id}}</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="fw-semibold text-dark">{{$tourist->phone_number}}</div>
-                                        <small class="text-muted">{{$tourist->district}}</small>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-light text-primary border border-primary-subtle fw-bold">{{$tourist->course_id}}</span>
-                                        <div class="small text-muted mt-1">{{$tourist->batch}}</div>
-                                    </td>
-                                    <td>
-                                                <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">
-                                                    <i class="fas fa-check-circle me-1"></i> {{$tourist->status}}
-                                                </span>
-                                    </td>
-                                    <td class="text-end pe-4">
-                                        <div class="btn-group btn-group-sm shadow-sm rounded-3" role="group">
-                                            <button type="button" class="btn btn-white text-primary border-light-subtle" data-bs-toggle="tooltip" title="View Details">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-white text-info border-light-subtle" data-bs-toggle="tooltip" title="Edit Student">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-white text-danger border-light-subtle" data-bs-toggle="tooltip" title="Delete">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-white py-3">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="small text-muted">Showing 1 to 10 of 50 entries</div>
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination pagination-sm mb-0 m-0 justify-content-end gap-1">
-                                    <li class="page-item disabled"><a class="page-link rounded-2 border-0 bg-light" href="#">Prev</a></li>
-                                    <li class="page-item active"><a class="page-link rounded-2 border-0 bg-brand-primary" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link rounded-2 border-0 text-dark" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link rounded-2 border-0 text-dark" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link rounded-2 border-0 text-brand-primary" href="#">Next</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
+@yield('content')
 
             </div>
         </div>

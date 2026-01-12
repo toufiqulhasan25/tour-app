@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Tourist;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,16 +14,20 @@ class TouristController extends Controller
     {
         $user = auth()->user();
         if(Auth::user()->role_id == 2){
-            return view('tourist.create', compact('user'));
+            $courses = Course::all(); 
+            return view('tourist.create', compact('user', 'courses'));
         }
 
     }
-    public function tour_list(){
-        if(Auth::user()->role_id == 2){
-            $tourists = Tourist::where('user_id', Auth::user()->id)->get();
-            return view('home.user', compact('tourists'));
-        }
+    public function tour_list()
+{
+    if (Auth::user()->role_id == 2) {
+        $tourists = Tourist::where('user_id', Auth::user()->id)->paginate(10);
+        return view('user.user', compact('tourists'));
     }
+
+    abort(403);
+}
     public function store(Request $request)
     {
         Tourist::create([
@@ -33,7 +38,7 @@ class TouristController extends Controller
             'blood_group' => $request->blood_group,
             'father_name' => $request->father_name,
             'mother_name' => $request->mother_name,
-            'emergency_contact' => $request->course_id,
+            'emergency_contact' => $request->emergency_contact,
             'batch' => $request->batch,
             'user_id' => auth()->id(),
             'status' => $request->status,
@@ -42,4 +47,12 @@ class TouristController extends Controller
         ]);
         return back()->with('message', 'Registration successfull');
     }
+
+    public function showProfile($id)
+{
+    // স্টুডেন্টের তথ্য এবং কোর্স রিলেশনসহ নিয়ে আসা
+    $student = Tourist::with('course')->findOrFail($id);
+    
+    return view('admin.student', compact('student'));
+}
 }

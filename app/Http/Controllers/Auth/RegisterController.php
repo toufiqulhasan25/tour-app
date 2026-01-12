@@ -47,13 +47,15 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
+{
+    return Validator::make($data, [
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'phone' => ['required', 'string'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+        'course_id' => ['required'],
+    ]);
+}
 
     /**
      * Create a new user instance after a valid registration.
@@ -61,13 +63,22 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'role_id' => 2,
-            'password' => Hash::make($data['password']),
-        ]);
-    }
+ protected function create(array $data)
+{
+    return User::create([
+        'name'          => $data['name'],
+        'email'         => $data['email'],
+        'phone'         => $data['phone'],
+        'blood_group'   => $data['blood_group'] ?? null,
+        'course_id'     => $data['course_id'],
+        'role_id'       => 2, // ২ মানে সাধারণ ইউজার/স্টুডেন্ট
+        'password'      => Hash::make($data['password']),
+    ]);
+}
+
+public function showRegistrationForm()
+{
+    $courses = \App\Models\Course::all(); 
+    return view('auth.register', compact('courses')); 
+}
 }

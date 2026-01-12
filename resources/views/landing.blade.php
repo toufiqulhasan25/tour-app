@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
-          rel="stylesheet">
+        rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('auth/auth.css') }}">
 
@@ -40,6 +41,7 @@
             flex-direction: column;
         }
 
+        /* Background Image Handling */
         /* Background Image Handling */
         .hero-bg {
             position: absolute;
@@ -134,20 +136,25 @@
         }
 
         .btn-discover {
-            background-color: white;
-            color: #333;
-            font-weight: 700;
+            background-color: #10b981;
+            /* Emerald Green */
+            color: white;
+            font-weight: 800;
             padding: 12px 35px;
             border-radius: 50px;
             text-transform: uppercase;
             font-size: 0.9rem;
             border: none;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
         }
 
         .btn-discover:hover {
-            background-color: #f0f0f0;
+            background-color: #047857;
+            /* Darker Green */
+            color: white;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
         }
 
         /* Responsive adjustments */
@@ -201,72 +208,55 @@
 
 <body>
 
-<!-- Navigation (Global) -->
-<div class="position-absolute w-100" style="z-index: 999;">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2" style="height: 40px;"> NIYD
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Service</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">FAQ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
-
-<!-- Main Content -->
-<main class="main-content-wrapper">
-    <div class="hero-section">
-        <div class="hero-bg"></div>
-        <div class="hero-overlay"></div>
-
-        <div class="hero-content">
+    <!-- Navigation (Global) -->
+    <div class="position-absolute w-100" style="z-index: 999;">
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
-                <p class="sub-title">Discover the Colorful World</p>
-                <h1 class="main-title">New Adventure</h1>
-                <p class="description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp
-                    or incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
-                </p>
-                <a href="{{ route('register') }}" class="btn btn-discover">Register Now</a>
+                <a class="navbar-brand" href="{{ route('home') }}">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2" style="height: 40px;"> NIYD
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="{{ route('landing.index') }}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('landing.gallery') }}">Gallery</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('landing.credits') }}">Credits</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
+        </nav>
     </div>
-</main>
 
-<footer class="adventure-footer">
-    <div class="container">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <!-- Main Content -->
+    <main class="main-content-wrapper">
+        @yield('body')
+    </main>
 
-            <div class="mb-2 mb-md-0 small text-center text-md-start">
-                &copy; {{ date('Y') }} <span class="brand-highlight">NIYD</span>. All rights reserved.
-            </div>
+    <footer class="adventure-footer">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
 
-            <div class="small d-flex align-items-center justify-content-center">
-                <span class="opacity-75">Made by</span>
-                <span class="credit-pill">
+                <div class="mb-2 mb-md-0 small text-center text-md-start">
+                    &copy; {{ date('Y') }} <span class="brand-highlight">NIYD</span>. All rights reserved.
+                </div>
+
+                <div class="small d-flex align-items-center justify-content-center">
+                    <span class="opacity-75">Made by</span>
+                    <span class="credit-pill">
                         Web App Dev Batch-04
                     </span>
+                </div>
+
             </div>
-
         </div>
-    </div>
-</footer>
+    </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

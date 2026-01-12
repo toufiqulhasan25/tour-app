@@ -18,10 +18,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'role_id',
-        'password',
+    'name',
+    'email',
+    'phone',
+    'blood_group',
+    'role_id',
+    'course_id',
+    'password',
     ];
 
     /**
@@ -46,4 +49,23 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getInitialsAttribute()
+{
+    $name = $this->name; 
+    $words = explode(' ', $name); 
+    $initials = '';
+
+    foreach ($words as $word) {
+        $initials .= strtoupper($word[0]); 
+    }
+
+    return substr($initials, 0, 2);
+}
+
+
+public function course()
+{
+    return $this->belongsTo(Course::class, 'course_id');
+}
 }

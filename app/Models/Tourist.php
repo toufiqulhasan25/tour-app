@@ -23,4 +23,12 @@ class Tourist extends Model
         'district',
         'permanent_address',
     ];
+
+    // Tourist.php মডেলে যোগ করুন
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
+    }
+
+    
 }

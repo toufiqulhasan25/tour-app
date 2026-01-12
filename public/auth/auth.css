@@ -1,0 +1,107 @@
+/* 1. The Background - Uses the same image as your homepage to stay consistent */
+.auth-background {
+    background: url('../images/mountain-bg.jpg') no-repeat center center;
+    background-size: cover;
+    min-height: 100vh;
+    /* Full screen height */
+    display: flex;
+    flex-direction: column;
+    /* Ensure column layout by default so footer stays down if needed */
+    position: relative;
+}
+
+/* Optional: A dark overlay so the white text pops */
+.auth-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    /* 30% Dark tint */
+    z-index: 1;
+}
+
+/* 2. The Glass Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    /* Transparent White */
+    backdrop-filter: blur(15px);
+    /* The "Mist" Blur Effect */
+    -webkit-backdrop-filter: blur(15px);
+    /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    color: #fff;
+    position: relative;
+    z-index: 2;
+    /* Sit on top of overlay */
+    max-width: 500px;
+    width: 100%;
+}
+
+/* 3. The Inputs */
+.glass-input {
+    background: rgba(255, 255, 255, 0.9);
+    /* Almost solid white for readability */
+    border: none;
+    border-radius: 50px;
+    /* Pill shape matches your buttons */
+    padding: 12px 25px;
+    color: #333;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+    background: #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    outline: none;
+}
+
+/* 4. The Button */
+.btn-adventure {
+    background-color: #ffffff;
+    color: #0f2b2d;
+    /* Dark Teal text to match vibe */
+    font-weight: 800;
+    letter-spacing: 1px;
+    border-radius: 50px;
+    padding: 12px;
+    border: none;
+    width: 100%;
+    text-transform: uppercase;
+    transition: transform 0.2s;
+}
+
+.btn-adventure:hover {
+    transform: translateY(-3px);
+    /* Subtle lift */
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.auth-link {
+    color: #4fd1c5;
+    /* Bright Teal link */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-link:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Fix for Select Dropdown arrow in Glassmorphism */
+select.glass-input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px 12px;
+    appearance: none;
+    /* Removes default browser arrow */
+}
+
