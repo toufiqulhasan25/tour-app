@@ -382,7 +382,7 @@ PREMIUM ADMIN DASHBOARD STYLES
                             <i class="fas fa-plus fa-sm text-white-50 me-2"></i>Add Student
                         </a>
 
-                        <a href="#" class="d-inline-block btn btn-sm btn-brand-primary shadow-sm fw-bold">
+                        <a href="{{ route('admin.report.download') }}" class="d-inline-block btn btn-sm btn-brand-primary shadow-sm fw-bold">
                             <i class="fas fa-download fa-sm text-white-50 me-2"></i>Generate Report
                         </a>
                     </div>

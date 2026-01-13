@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Cache\HasCacheLock;
 use Illuminate\Database\Eloquent\Model;
 
 class Tourist extends Model
 {
-    use HasCacheLock;
     protected $fillable = [
         'name',
         'student_id',
@@ -21,14 +19,12 @@ class Tourist extends Model
         'user_id',
         'status',
         'district',
+        'remarks',           
         'permanent_address',
     ];
 
-    // Tourist.php মডেলে যোগ করুন
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
-
-    
 }

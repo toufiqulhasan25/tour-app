@@ -23,7 +23,7 @@ Route::get('/tourist/create', [TouristController::class, 'create'])->name('touri
 Route::get('/student/profile/{id}', [TouristController::class, 'showProfile'])->name('tourist.showProfile');
 Route::get('/tourist/list', [TouristController::class, 'tour_list'])->name('tourist.list');
 Route::post('/tourist/store', [TouristController::class, 'store'])->name('tourist.store');
-Route::post('/student/update/{id}', [HomeController::class, 'updateStudent'])->name('student.update');
+Route::put('/student/update/{id}', [HomeController::class, 'updateStudent'])->name('student.update');
 
 
 
@@ -32,3 +32,8 @@ Route::get('/courses/{id}', [CourseController::class, 'courseWise'])->name('cour
 
 Route::get('/student/profile/pdf/{id}', [HomeController::class, 'downloadPDF'])->name('student.download.pdf');
 Route::get('/user/student/profile/{id}', [HomeController::class, 'showStudentProfile'])->name('user.student.profile');
+
+Route::get('/admin/generate-report', [HomeController::class, 'generateAllStudentsReport'])->name('admin.report.download');
+
+// স্টুডেন্টের সিঙ্গেল প্রোফাইল পিডিএফ ডাউনলোডের রাউট
+Route::get('/student/pdf/{id}', [HomeController::class, 'generateStudentPDF'])->name('tourist.pdf');

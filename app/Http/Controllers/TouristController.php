@@ -50,7 +50,7 @@ class TouristController extends Controller
 
     public function showProfile($id)
 {
-    // স্টুডেন্টের তথ্য এবং কোর্স রিলেশনসহ নিয়ে আসা
+    
     $student = Tourist::with('course')->findOrFail($id);
     
     return view('admin.student', compact('student'));

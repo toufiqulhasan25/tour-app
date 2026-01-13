@@ -27,14 +27,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // ডাটাবেস থেকে মোট স্টুডেন্ট সংখ্যা গণনা করা
         $totalStudents = Tourist::count();
 
         if(Auth::user()->role_id == 1){
             $courses = Course::withCount('tourists')->get();
             $tourists = Tourist::with('course')->paginate(10);
 
-            // ভিউতে totalStudents পাঠানো হচ্ছে
             return view('admin.admin', compact('courses', 'tourists', 'totalStudents'));
         } else {
             $courses = Course::withCount('tourists')->get();
@@ -46,16 +44,15 @@ class HomeController extends Controller
     public function updateStudent(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:active,applied,inactive',
+            'status'  => 'required|in:active,pending,rejected', 
             'remarks' => 'nullable|string|max:500',
         ]);
 
         $student = Tourist::findOrFail($id);
 
+        
         $student->status = $request->status;
-        if($request->has('remarks')){
-            $student->remarks = $request->remarks;
-        }
+        $student->remarks = $request->remarks;
 
         $student->save();
 
@@ -68,10 +65,8 @@ class HomeController extends Controller
     {
         $student = Tourist::with('course')->findOrFail($id);
         
-        // পিডিএফ এর জন্য আলাদা একটি ভিউ ফাইল লোড করা হচ্ছে
         $pdf = Pdf::loadView('user.profile_pdf', compact('student'));
         
-        // ফাইলটি ডাউনলোড করার জন্য নাম সেট করা
         return $pdf->download('Student_Profile_'.$student->id.'.pdf');
     }
 
@@ -84,6 +79,32 @@ class HomeController extends Controller
         }
 
         return view('user.student', compact('student'));
+    }
+
+    public function generateAllStudentsReport()
+    {
+        $students = Tourist::with('course')->latest()->get();
+        
+        $stats = [
+            'total' => $students->count(),
+            'active' => $students->where('status', 'active')->count(),
+            'pending' => $students->where('status', 'pending')->count(),
+        ];
+
+        $pdf = Pdf::loadView('admin.all_students_pdf', compact('students', 'stats'));
+        
+        $pdf->setPaper('a4', 'landscape');
+    
+        return $pdf->download('All_Students_Report_'.date('d_M_Y').'.pdf');
+    }
+
+    public function generateStudentPDF($id)
+    {
+        $student = Tourist::with('course')->findOrFail($id);
+    
+        $pdf = Pdf::loadView('user.profile_pdf', compact('student'));
+    
+        return $pdf->download('Student_Profile_'.$student->id.'.pdf');
     }
 
   
