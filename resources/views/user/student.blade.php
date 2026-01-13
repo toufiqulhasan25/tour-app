@@ -1,115 +1,165 @@
 @extends('user.master') 
 
 @section('body')
-<div class="container col-md-9 py-5">
-    
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="text-dark fw-bold m-0 ls-1">My Profile</h2>
-            <p class="text-muted small m-0">Personal and Academic Information</p>
-        </div>
-        <div>
-            <a href="{{ route('student.download.pdf', $student->id) }}" class="btn btn-danger btn-sm fw-bold me-2">
-                <i class="fas fa-file-pdf me-1"></i> Download PDF
-            </a>
-            <a href="{{ url()->previous() }}" class="btn btn-outline-secondary btn-sm fw-bold">
-                <i class="fas fa-arrow-left me-1"></i> Back
-            </a>
-        </div>
-    </div>
-
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="card-header bg-white py-4 px-5 border-bottom">
-            <div class="d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center">
-                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
-                        style="width: 50px; height: 50px;">
-                        <i class="fas fa-user-graduate fa-lg"></i>
-                    </div>
-                    <div>
-                        <h4 class="m-0 fw-bold text-dark">{{ $student->name }}</h4>
-                        <span class="badge bg-light text-secondary border mt-1">ID: ST-{{ $student->id + 2024000 }}</span>
-                    </div>
-                </div>
+<div class="niyd-profile-container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-11 col-lg-10">
+            
+            {{-- Header & Breadcrumb --}}
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
                 <div>
-                    @if($student->status == 'active')
-                        <span class="badge bg-success-subtle text-success px-3 py-2 fw-bold text-uppercase"><i class="fas fa-check-circle me-1"></i> Active</span>
-                    @elseif($student->status == 'pending')
-                        <span class="badge bg-warning-subtle text-warning px-3 py-2 fw-bold text-uppercase"><i class="fas fa-clock me-1"></i> Pending</span>
-                    @else
-                        <span class="badge bg-danger-subtle text-danger px-3 py-2 fw-bold text-uppercase"><i class="fas fa-times-circle me-1"></i> Rejected</span>
-                    @endif
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-1">
+                            <li class="breadcrumb-item small"><a href="#" class="text-decoration-none text-muted">Management</a></li>
+                            <li class="breadcrumb-item small active">Application Details</li>
+                        </ol>
+                    </nav>
+                    <h2 class="text-dark fw-bold m-0" style="letter-spacing: -0.5px;">User Profile</h2>
+                </div>
+                <div class="d-flex gap-2">
+                    <button onclick="window.print()" class="btn btn-outline-dark btn-sm fw-bold px-3 rounded-3 shadow-sm d-none d-md-inline-block">
+                        <i class="fas fa-print me-1"></i> Print
+                    </button>
+                    <a href="{{ route('student.download.pdf', $student->id) }}" class="btn btn-danger btn-sm fw-bold px-3 rounded-3 shadow-sm">
+                        <i class="fas fa-file-pdf me-1"></i> PDF
+                    </a>
+                    <a href="{{ url()->previous() }}" class="btn btn-light btn-sm border fw-bold px-3 rounded-3 shadow-sm">
+                        <i class="fas fa-arrow-left me-1"></i> Back
+                    </a>
                 </div>
             </div>
-        </div>
 
-        <div class="card-body p-5 bg-white">
-            <div class="mb-5">
-                <h6 class="text-uppercase text-primary fw-bold small ls-1 mb-4 border-bottom pb-2">Basic Information & Address</h6>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <label class="small text-muted fw-bold text-uppercase">Full Name</label>
-                        <div class="fs-6 text-dark fw-semibold mt-1">{{ $student->name }}</div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="small text-muted fw-bold text-uppercase">Phone Number</label>
-                        <div class="fs-6 text-dark fw-semibold mt-1">{{ $student->phone_number }}</div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="small text-muted fw-bold text-uppercase">Village</label>
-                        <div class="fs-6 text-dark fw-semibold mt-1">{{ $student->permanent_address ?? 'N/A' }}</div>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="small text-muted fw-bold text-uppercase">District</label>
-                        <div class="fs-6 text-dark fw-semibold mt-1">{{ $student->district }}</div>
-                    </div>
-                    <div class="col-md-1">
-                        <label class="small text-muted fw-bold text-uppercase">Blood Group</label>
-                        <div class="fs-6 text-dark fw-semibold mt-1">
-                            <span class="badge bg-danger-subtle text-danger px-3">{{ $student->blood_group ?? 'N/A' }}</span>
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                {{-- Banner/Header --}}
+                <div class="card-header border-0 py-4 px-4 px-md-5 bg-white border-bottom">
+                    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
+                        <div class="d-flex flex-column flex-md-row align-items-center gap-4">
+                            {{-- Avatar --}}
+                            <div class="user-avatar shadow-sm d-flex align-items-center justify-content-center text-white"
+                                 style="width: 85px; height: 85px; font-size: 2rem; font-weight: 800; background: linear-gradient(45deg, #4e73df, #224abe); border-radius: 20px;">
+                                {{ strtoupper(substr($student->name, 0, 1)) }}
+                            </div>
+                            
+                            <div class="text-center text-md-start">
+                                <h3 class="fw-bold text-dark mb-1">{{ $student->name }}</h3>
+                                <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2 mt-2">
+                                    @php
+                                        $idPrefix = $student->user_type == 'teacher' ? 'TR-' : ($student->user_type == 'staff' ? 'SF-' : 'ST-');
+                                    @endphp
+                                    <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">ID: {{ $idPrefix }}{{ $student->id + 2026000 }}</span>
+                                    <span class="badge px-3 py-2 rounded-pill" style="background-color: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe;">
+                                        Type: {{ ucfirst($student->user_type ?? 'Student') }}
+                                    </span>
+                                    @if($student->batch)
+                                        <span class="badge px-3 py-2 rounded-pill" style="background-color: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0;">
+                                            Batch: {{ $student->batch }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Status Badge --}}
+                        <div class="text-center">
+                            @php
+                                $statusClasses = [
+                                    'active' => 'background-color: #dcfce7; color: #15803d; border-color: #bbf7d0;',
+                                    'pending' => 'background-color: #fef9c3; color: #854d0e; border-color: #fef08a;',
+                                    'rejected' => 'background-color: #fee2e2; color: #b91c1c; border-color: #fecaca;'
+                                ];
+                                $currentStatus = strtolower($student->status ?? 'pending');
+                                $statusStyle = $statusClasses[$currentStatus] ?? 'background-color: #f3f4f6; color: #374151;';
+                            @endphp
+                            <span class="badge px-4 py-2 fw-bold text-uppercase border rounded-pill shadow-sm" style="{{ $statusStyle }}">
+                                <i class="fas {{ $currentStatus == 'active' ? 'fa-check-circle' : ($currentStatus == 'pending' ? 'fa-clock' : 'fa-times-circle') }} me-1"></i> 
+                                {{ $student->status ?? 'Pending' }}
+                            </span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="mb-5">
-                <h6 class="text-uppercase text-primary fw-bold small ls-1 mb-4 border-bottom pb-2">Guardian Information</h6>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <label class="small text-muted fw-bold text-uppercase">Father's Name</label>
-                        <div class="fs-6 text-dark fw-semibold mt-1">{{ $student->father_name }}</div>
+                {{-- Card Content --}}
+                <div class="card-body p-4 p-md-5 bg-white">
+                    
+                    {{-- 1. Info Section --}}
+                    <div class="row g-5">
+                        <div class="col-lg-7">
+                            <div class="d-flex align-items-center mb-4">
+                                <div style="width: 4px; height: 20px; background: #4e73df; border-radius: 10px;" class="me-2"></div>
+                                <h6 class="text-uppercase fw-bold m-0" style="color: #4e73df; letter-spacing: 1px;">Personal Details</h6>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="small text-muted fw-bold text-uppercase">Email Address</label>
+                                    <p class="text-dark fw-semibold border-bottom pb-2">{{ $student->email ?? 'Not Provided' }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small text-muted fw-bold text-uppercase">Phone Number</label>
+                                    <p class="text-dark fw-semibold border-bottom pb-2"><i class="fas fa-phone-alt me-2 text-muted small"></i> {{ $student->phone_number }}</p>
+                                </div>
+                                <div class="col-12">
+                                    <label class="small text-muted fw-bold text-uppercase">Permanent Address</label>
+                                    <p class="text-dark fw-semibold border-bottom pb-2">{{ $student->permanent_address ?? 'N/A' }}, {{ $student->district }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small text-muted fw-bold text-uppercase">Blood Group</label>
+                                    <div><span class="badge bg-danger px-3 py-2 shadow-sm"><i class="fas fa-tint me-1"></i> {{ $student->blood_group ?? 'N/A' }}</span></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small text-muted fw-bold text-uppercase">Emergency Contact</label>
+                                    <p class="text-danger fw-bold"><i class="fas fa-phone-square-alt me-1"></i> {{ $student->emergency_contact }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- 2. Guardian / Professional Section --}}
+                        <div class="col-lg-5">
+                            <div class="p-4 rounded-4 h-100" style="background-color: #f8fafc; border: 1px solid #e2e8f0;">
+                                <div class="d-flex align-items-center mb-4">
+                                    <div style="width: 4px; height: 20px; background: #224abe; border-radius: 10px;" class="me-2"></div>
+                                    <h6 class="text-uppercase fw-bold m-0" style="color: #224abe; letter-spacing: 1px;">
+                                        {{ $student->user_type == 'student' ? 'Guardian Info' : 'Professional Info' }}
+                                    </h6>
+                                </div>
+
+                                @if($student->user_type == 'student')
+                                    <div class="mb-4">
+                                        <label class="small text-muted fw-bold text-uppercase">Father's Name</label>
+                                        <p class="text-dark fw-semibold mb-3">{{ $student->father_name }}</p>
+                                        <label class="small text-muted fw-bold text-uppercase">Mother's Name</label>
+                                        <p class="text-dark fw-semibold">{{ $student->mother_name }}</p>
+                                    </div>
+                                @else
+                                    <div class="mb-4">
+                                        <label class="small text-muted fw-bold text-uppercase">Department</label>
+                                        <p class="text-dark fw-bold mb-3"><i class="fas fa-briefcase me-2 text-muted"></i> {{ $student->department ?? 'General' }}</p>
+                                    </div>
+                                @endif
+
+                                <div class="pt-3 border-top">
+                                    <label class="small text-muted fw-bold text-uppercase">Course/Enrolled In</label>
+                                    <p class="text-primary fw-bold fs-5 mb-0">
+                                        <i class="fas fa-graduation-cap me-2"></i> {{ $student->course->name ?? 'Not Assigned' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <label class="small text-muted fw-bold text-uppercase">Mother's Name</label>
-                        <div class="fs-6 text-dark fw-semibold mt-1">{{ $student->mother_name }}</div>
+
+                    {{-- Admin Remarks --}}
+                    @if($student->remarks)
+                    <div class="mt-5 p-4 rounded-3 border-start border-4 shadow-sm" style="background-color: #fffbeb; border-color: #f59e0b !important;">
+                        <h6 class="fw-bold text-dark mb-2 small text-uppercase"><i class="fas fa-comment-dots me-2 text-warning"></i>Admin Remarks:</h6>
+                        <p class="text-dark m-0 fst-italic">"{{ $student->remarks }}"</p>
                     </div>
-                    <div class="col-12">
-                        <label class="small text-muted fw-bold text-uppercase">Emergency Contact</label>
-                        <div class="fs-6 text-dark fw-semibold mt-1">{{ $student->emergency_contact }}</div>
-                    </div>
+                    @endif
+                </div>
+                
+                <div class="card-footer bg-light py-3 px-5 text-center border-0">
+                    <small class="text-muted fw-medium">Official NIYD Tour Document • Registration Date: {{ $student->created_at->format('d M, Y') }}</small>
                 </div>
             </div>
-
-            <div class="mb-0">
-                <h6 class="text-uppercase text-primary fw-bold small ls-1 mb-4 border-bottom pb-2">Academic Details</h6>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <label class="small text-muted fw-bold text-uppercase">Enrolled Course</label>
-                        <div class="fs-6 text-primary fw-bold mt-1">{{ $student->course->name ?? 'Not Assigned' }}</div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="small text-muted fw-bold text-uppercase">Batch</label>
-                        <div class="fs-6 text-dark fw-semibold mt-1">{{ $student->batch ?? 'Assigning Soon' }}</div>
-                    </div>
-                </div>
-            </div>
-            
-            @if($student->remarks)
-            <div class="mt-5 p-4 bg-light rounded-3 border">
-                <h6 class="fw-bold text-dark mb-2"><i class="fas fa-info-circle me-2 text-primary"></i>Note from Admin:</h6>
-                <p class="text-muted m-0 italic">"{{ $student->remarks }}"</p>
-            </div>
-            @endif
         </div>
     </div>
 </div>

@@ -68,4 +68,12 @@ public function course()
 {
     return $this->belongsTo(Course::class, 'course_id');
 }
+
+public function isAdmin() {
+    return $this->role_id == 1; 
+}
+
+
+
+
 }

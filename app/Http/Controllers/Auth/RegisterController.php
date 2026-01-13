@@ -71,7 +71,7 @@ class RegisterController extends Controller
         'phone'         => $data['phone'],
         'blood_group'   => $data['blood_group'] ?? null,
         'course_id'     => $data['course_id'],
-        'role_id'       => 2, // ২ মানে সাধারণ ইউজার/স্টুডেন্ট
+        'role_id'       => 2, 
         'password'      => Hash::make($data['password']),
     ]);
 }

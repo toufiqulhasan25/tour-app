@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Tourist;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -25,21 +26,60 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        $totalStudents = Tourist::count();
+    public function index(Request $request) 
+{
+    $totalStudents = Tourist::count();
+    $status = $request->get('status'); 
+    $search = $request->get('search');
 
-        if(Auth::user()->role_id == 1){
-            $courses = Course::withCount('tourists')->get();
-            $tourists = Tourist::with('course')->paginate(10);
+    if(Auth::user()->role_id == 1){ 
+        $courses = Course::withCount('tourists')->get();
+        
+        $query = Tourist::with('course');
 
-            return view('admin.admin', compact('courses', 'tourists', 'totalStudents'));
-        } else {
-            $courses = Course::withCount('tourists')->get();
-            $tourists = Tourist::where('user_id', Auth::user()->id)->paginate(10);
-            return view('user.user', compact('tourists'));
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('student_id', 'LIKE', "%{$search}%")
+                  ->orWhere('phone_number', 'LIKE', "%{$search}%");
+            });
         }
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        $activeStudents = Tourist::where('status', 'active')->count();
+        $pendingStudents = Tourist::where('status', 'pending')->count();
+        $rejectedStudents = Tourist::where('status', 'rejected')->count();
+
+        $tourists = $query->latest()->paginate(10);
+
+        return view('admin.admin', compact(
+            'courses', 
+            'tourists', 
+            'totalStudents', 
+            'activeStudents', 
+            'pendingStudents', 
+            'rejectedStudents'
+        ));
+
+    } else { 
+        $query = Tourist::where('user_id', Auth::user()->id);
+
+        if ($search) {
+            $query->where('name', 'LIKE', "%{$search}%");
+        }
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        $tourists = $query->latest()->paginate(10);
+        
+        return view('user.user', compact('tourists'));
     }
+}
 
     public function updateStudent(Request $request, $id)
     {
@@ -73,13 +113,15 @@ class HomeController extends Controller
     public function showStudentProfile($id)
     {
         $student = Tourist::with('course')->findOrFail($id);
-
-        if ($student->user_id !== auth()->id()) {
-            abort(403, 'আপনার এই প্রোফাইল দেখার অনুমতি নেই।'); 
+    
+        if (!auth()->user()->isAdmin() && $student->user_id !== auth()->id()) {
+            abort(403, 'You are not authorized to view this profile.');
         }
 
         return view('user.student', compact('student'));
     }
+
+    
 
     public function generateAllStudentsReport()
     {
@@ -106,6 +148,51 @@ class HomeController extends Controller
     
         return $pdf->download('Student_Profile_'.$student->id.'.pdf');
     }
+
+    public function myAdminProfile()
+    {
+        $user = User::with('course')->findOrFail(auth()->id());
+        
+        return view('admin.profile_page', compact('user'));
+    }
+    public function myUserProfile()
+    {
+        $user = User::with('course')->findOrFail(auth()->id());
+        
+        return view('user.profile_page', compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+{
+    $user = Auth::user();
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'phone' => 'nullable|string|max:15',
+        'blood_group' => 'nullable|string|max:5',
+    ]);
+
+    $user->update([
+        'name' => $request->name,
+        'phone' => $request->phone,
+        'blood_group' => $request->blood_group,
+    ]);
+
+    return redirect()->back()->with('success', 'Profile updated successfully!');
+}
+
+public function deleteStudent($id)
+{
+    $student = Tourist::findOrFail($id);
+
+    if (!auth()->user()->isAdmin() && $student->user_id !== auth()->id()) {
+        abort(403, 'You are not authorized to delete this record.');
+    }
+
+    $student->delete();
+
+    return redirect()->back()->with('success', 'Registration deleted successfully!');
+}
 
   
 }

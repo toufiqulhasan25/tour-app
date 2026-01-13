@@ -21,7 +21,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/tourist/create', [TouristController::class, 'create'])->name('tourist.create');
 Route::get('/student/profile/{id}', [TouristController::class, 'showProfile'])->name('tourist.showProfile');
-Route::get('/tourist/list', [TouristController::class, 'tour_list'])->name('tourist.list');
+Route::get('/tourist/list', [TouristController::class, 'tour_list'])->name('dashboard.tourist');
 Route::post('/tourist/store', [TouristController::class, 'store'])->name('tourist.store');
 Route::put('/student/update/{id}', [HomeController::class, 'updateStudent'])->name('student.update');
 
@@ -35,5 +35,14 @@ Route::get('/user/student/profile/{id}', [HomeController::class, 'showStudentPro
 
 Route::get('/admin/generate-report', [HomeController::class, 'generateAllStudentsReport'])->name('admin.report.download');
 
-// স্টুডেন্টের সিঙ্গেল প্রোফাইল পিডিএফ ডাউনলোডের রাউট
 Route::get('/student/pdf/{id}', [HomeController::class, 'generateStudentPDF'])->name('tourist.pdf');
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/my-admin-profile', [HomeController::class, 'myAdminProfile'])->name('admin.profile');
+    Route::get('/my-user-profile', [HomeController::class, 'myUserProfile'])->name('user.profile');
+    Route::post('/profile-update', [HomeController::class, 'updateProfile'])->name('user.profile.update');
+});
+
+Route::delete('/student/delete/{id}', [HomeController::class, 'deleteStudent'])->name('student.delete');
