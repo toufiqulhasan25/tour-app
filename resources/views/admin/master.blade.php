@@ -266,11 +266,11 @@ PREMIUM ADMIN DASHBOARD STYLES
 
     <ul class="navbar-nav bg-brand-dark sidebar accordion" id="accordionSidebar">
 
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
             <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-graduation-cap fs-3"></i>
+                 <i class="fa-solid fa-bus-simple"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">EduAdmin Pro</div>
+            <div class="sidebar-brand-text mx-3">Tour Admin</div>
         </a>
 
         <hr class="sidebar-divider my-0">
@@ -396,7 +396,7 @@ PREMIUM ADMIN DASHBOARD STYLES
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 fw-bold">
-                                            Total Students</div>
+                                            Total Applied</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800 fw-bold">{{ number_format($totalStudents) }}</div>
                                     </div>
                                     <div class="col-auto">
@@ -465,11 +465,22 @@ PREMIUM ADMIN DASHBOARD STYLES
             </div>
         </div>
         <footer class="sticky-footer bg-white py-3 mt-auto shadow-sm-top">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto text-muted small fw-semibold">
-                    <span>Copyright &copy; Your Academy System 2024</span>
+            <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+
+                <div class="mb-2 mb-md-0 small text-center text-md-start">
+                    &copy; {{ date('Y') }} <span class="brand-highlight">NIYD</span>. All rights reserved.
                 </div>
+
+                <div class="small d-flex align-items-center justify-content-center">
+                    <span class="opacity-75">Made by</span>
+                    <span class="credit-pill">
+                        Web App Dev Batch-04
+                    </span>
+                </div>
+
             </div>
+        </div>
         </footer>
     </div>
 </div>

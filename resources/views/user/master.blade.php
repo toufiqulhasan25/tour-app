@@ -260,11 +260,11 @@ PREMIUM ADMIN DASHBOARD STYLES
 
     <ul class="navbar-nav bg-brand-dark sidebar accordion" id="accordionSidebar">
 
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('tourist.list')}}">
             <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-graduation-cap fs-3"></i>
+                <i class="fa-solid fa-bus-simple"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">EduAdmin Pro</div>
+            <div class="sidebar-brand-text mx-3">Tour Admin</div>
         </a>
 
         <hr class="sidebar-divider my-0">
@@ -300,26 +300,11 @@ PREMIUM ADMIN DASHBOARD STYLES
                     <i class="fa fa-bars"></i>
                 </button>
 
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                               aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-brand-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                
 
                 <ul class="navbar-nav ml-auto ms-auto align-items-center">
 
-                    <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" role="button">
-                            <i class="fas fa-bell fa-fw text-gray-600"></i>
-                            <span class="badge bg-danger badge-counter rounded-circle">3+</span>
-                        </a>
-                    </li>
+                    
 
                     <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -367,11 +352,22 @@ PREMIUM ADMIN DASHBOARD STYLES
             </div>
         </div>
         <footer class="sticky-footer bg-white py-3 mt-auto shadow-sm-top">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto text-muted small fw-semibold">
-                    <span>Copyright &copy; Your Academy System 2024</span>
+            <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+
+                <div class="mb-2 mb-md-0 small text-center text-md-start">
+                    &copy; {{ date('Y') }} <span class="brand-highlight">NIYD</span>. All rights reserved.
                 </div>
+
+                <div class="small d-flex align-items-center justify-content-center">
+                    <span class="opacity-75">Made by</span>
+                    <span class="credit-pill">
+                        Web App Dev Batch-04
+                    </span>
+                </div>
+
             </div>
+        </div>
         </footer>
     </div>
 </div>

@@ -29,3 +29,6 @@ Route::post('/student/update/{id}', [HomeController::class, 'updateStudent'])->n
 
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/courses/{id}', [CourseController::class, 'courseWise'])->name('courses.courseWise');
+
+Route::get('/student/profile/pdf/{id}', [HomeController::class, 'downloadPDF'])->name('student.download.pdf');
+Route::get('/user/student/profile/{id}', [HomeController::class, 'showStudentProfile'])->name('user.student.profile');

@@ -15,7 +15,7 @@ class TouristController extends Controller
         $user = auth()->user();
         if(Auth::user()->role_id == 2){
             $courses = Course::all(); 
-            return view('tourist.create', compact('user', 'courses'));
+            return view('user.registrationTour', compact('user', 'courses'));
         }
 
     }
