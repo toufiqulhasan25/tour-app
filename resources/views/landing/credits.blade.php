@@ -4,8 +4,8 @@
     <div class="auth-background flex-grow-1 d-flex flex-column position-relative" style="height: auto; min-height: 100vh;">
         <div class="auth-overlay"></div>
 
-        <div class="container flex-grow-1 d-flex flex-column justify-content-center py-5 position-relative"
-            style="z-index: 2;">
+        <div class="container flex-grow-1 d-flex flex-column justify-content-center pb-5 position-relative"
+            style="z-index: 2; padding-top: 120px;">
 
             <div class="text-center mb-5">
                 <p class="sub-title text-white opacity-75">Meet the Creators</p>
@@ -19,9 +19,9 @@
             </div>
 
             <div class="d-flex justify-content-center w-100">
-                
+
                 <div class="glass-card p-4 w-100" style="max-width: 500px;">
-                    
+
                     <h4 class="text-center fw-bold mb-4 text-uppercase border-bottom pb-3"
                         style="border-color: rgba(255,255,255,0.2) !important; color: #81e6d9; letter-spacing: 2px;">
                         Designers & Developers
@@ -48,7 +48,7 @@
                                 <i class="fa fa-user fw-bold"></i>
                             </div>
                             <div class="ms-3">
-                                <h5 class="m-0 fw-bold text-white">Toufiqul hasan Shuvo</h5>
+                                <h5 class="m-0 fw-bold text-white">Toufiqul Hasan Shuvo</h5>
                                 <small class="text-white-50">Backend Developer</small>
                             </div>
                         </div>
