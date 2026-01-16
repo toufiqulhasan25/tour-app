@@ -1,262 +1,223 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adventure - New Adventure</title>
+    <title>Industrial Tour 2026 - NIYD</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
-        rel="stylesheet">
-
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="{{ asset('auth/auth.css') }}">
 
     <style>
+        /* --- GLOBAL STYLES --- */
         body {
             font-family: 'Poppins', sans-serif;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            background-color: #1a1a1a; 
+            overflow-x: hidden;
+            color: #fff;
         }
 
-        .main-content-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* --- Hero Section Styles --- */
-        .hero-section {
-            position: relative;
-            height: 100vh;
-            /* Full viewport height */
-            width: 100%;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Background Image Handling */
-        /* Background Image Handling */
-        .hero-bg {
-            position: absolute;
+        /* --- BACKGROUND SLIDESHOW --- */
+        .hero-bg-container {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("{{ asset('images/mountain-bg.jpg') }}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
             z-index: -2;
         }
 
-        /* Dark Overlay to make text readable */
-        .hero-overlay {
+        .hero-slide {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 50, 80, 0.4);
-            /* Blue-ish dark tint matching the design */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0; 
+            animation: fadeEffect 20s infinite; 
+        }
+
+        .hero-slide:nth-child(1) {
+            background-image: url("{{ asset('images/mountain-bg.jpg') }}");
+            animation-delay: 0s;
+        }
+
+        .hero-slide:nth-child(2) {
+            background-image: url("{{ asset('images/sea-bg.png') }}");
+            animation-delay: 10s; 
+        }
+
+        @keyframes fadeEffect {
+            0% { opacity: 0; }
+            10% { opacity: 1; }   
+            45% { opacity: 1; }   
+            55% { opacity: 0; }   
+            100% { opacity: 0; }
+        }
+
+        /* --- OVERLAY --- */
+        .hero-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
             z-index: -1;
         }
 
-        /* --- Navbar Styles --- */
+        /* --- NAVBAR --- */
         .navbar {
-            background: transparent !important;
-            padding-top: 20px;
+            background: rgba(0,0,0,0.1) !important;
+            backdrop-filter: blur(5px);
+            padding-top: 15px; /* Increased slightly for vertical centering space */
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-
+        
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: white !important;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .navbar-brand i {
-            font-size: 1.2rem;
-        }
-
+        /* Standard Links */
         .nav-link {
-            color: white !important;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            margin-left: 15px;
-            letter-spacing: 0.5px;
-        }
-
-        .nav-link:hover {
-            color: #ddd !important;
-        }
-
-        /* --- Main Content / Hero Text Styles --- */
-        .hero-content {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            padding: 0 20px;
-        }
-
-        .sub-title {
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .main-title {
-            font-size: 4.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .description {
-            font-size: 1rem;
-            max-width: 700px;
-            margin: 0 auto 40px auto;
-            font-weight: 300;
-            opacity: 0.9;
-        }
-
-        .btn-discover {
-            background-color: #10b981;
-            /* Emerald Green */
-            color: white;
-            font-weight: 800;
-            padding: 12px 35px;
-            border-radius: 50px;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            border: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-        }
-
-        .btn-discover:hover {
-            background-color: #047857;
-            /* Darker Green */
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2.5rem;
-            }
-
-            .navbar {
-                background: rgba(0, 0, 0, 0.8) !important;
-                /* Dark background on mobile menu */
-            }
-        }
-
-        .adventure-footer {
-            background-color: #0f2b2d;
-            /* Deep Forest Teal - matches the trees */
-            color: #e0f2f1;
-            /* Soft mist color for text */
-            border-top: 1px solid #234e52;
-            padding: 1.5rem 0;
-            margin-top: auto;
-        }
-
-        .adventure-footer .brand-highlight {
-            color: #4fd1c5;
-            /* Bright Teal for "NIYD" */
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .adventure-footer .credit-pill {
-            background: rgba(255, 255, 255, 0.1);
-            color: #81e6d9;
-            /* Lighter Teal */
-            border: 1px solid rgba(129, 230, 217, 0.3);
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.75rem;
+            color: rgba(255,255,255,0.9) !important;
             font-weight: 500;
-            margin-left: 8px;
-            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-left: 20px;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-        .adventure-footer .credit-pill:hover {
-            background: rgba(129, 230, 217, 0.2);
-            color: #fff;
+        .nav-link:hover, .nav-link.active {
+            color: #4fd1c5 !important;
+        }
+
+        /* LOGIN BUTTON STYLE */
+        .btn-login-nav {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 6px 20px !important; /* Proper padding for pill shape */
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            margin-left: 20px; /* Space from Gallery link */
+        }
+
+        .btn-login-nav:hover, .btn-login-nav.active {
+            background-color: white !important;
+            color: #0f2b2d !important; /* Dark text on white bg */
+            border-color: white;
+            text-shadow: none;
+        }
+
+        /* --- CONTENT WRAPPER --- */
+        .main-content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1; 
+        }
+
+        /* --- FOOTER --- */
+        .adventure-footer {
+            background-color: rgba(15, 43, 45, 0.9);
+            backdrop-filter: blur(10px);
+            color: #a0aec0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 0;
+            margin-top: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (max-width: 768px) {
+            .navbar { background: #0f2b2d !important; }
         }
     </style>
 </head>
-
 <body>
 
-    <!-- Navigation (Global) -->
-    <div class="position-absolute w-100" style="z-index: 999;">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container">
-                <a class="navbar-brand" href="{{ route('landing.index') }}">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2" style="height: 40px;"> NIYD
-                </a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="{{ route('landing.index') }}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('landing.gallery') }}">Gallery</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('landing.credits') }}">Credits</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <div class="hero-bg-container">
+        <div class="hero-slide"></div>
+        <div class="hero-slide"></div>
     </div>
 
-    <!-- Main Content -->
+    <div class="hero-overlay"></div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ route('landing.index') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 35px;"> 
+                <span>NIYD</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is('landing.index') ? 'active' : '' }}" 
+                           href="{{ route('landing.index') }}">Home</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is('landing.tour_plan') ? 'active' : '' }}" 
+                           href="{{ route('landing.itinerary') }}">Itinerary</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is('landing.gallery') ? 'active' : '' }}" 
+                           href="{{ route('landing.gallery') }}">Gallery</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link btn-login-nav {{ Route::is('login') ? 'active' : '' }}" 
+                           href="{{ route('login') }}">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <main class="main-content-wrapper">
         @yield('body')
     </main>
 
     <footer class="adventure-footer">
         <div class="container">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-
-                <div class="mb-2 mb-md-0 small text-center text-md-start">
-                    &copy; {{ date('Y') }} <span class="brand-highlight">NIYD</span>. All rights reserved.
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                    <h6 class="text-white fw-bold mb-0" style="font-size: 0.9rem;">National Institute of Youth Development</h6>
+                    <small style="font-size: 0.75rem;">Ministry of Youth & Sports, Govt. of Bangladesh</small>
                 </div>
-
-                <div class="small d-flex align-items-center justify-content-center">
-                    <span class="opacity-75">Made by</span>
-                    <span class="credit-pill">
-                        Web App Dev Batch-04
-                    </span>
+                <div class="col-md-6 text-center text-md-end">
+                    <small class="opacity-75" style="font-size: 0.75rem;">Designed & Developed by</small>
+                    <span class="badge bg-light text-dark rounded-pill ms-2 px-2 py-1" style="font-size: 0.75rem;">Web Application & Web Development Batch-04</span>
                 </div>
-
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

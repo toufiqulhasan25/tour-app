@@ -3,35 +3,48 @@
 @section('body')
 <div class="niyd-dashboard-content py-4">
     
-    
     <div class="mb-4 px-2">
         <h4 class="fw-bold text-dark mb-1">Welcome back, {{ auth()->user()->name }}!</h4>
         <p class="text-muted small">Manage your tour registrations and account details from here.</p>
     </div>
 
+    @php
+        $deadline = \Carbon\Carbon::create(2026, 1, 20, 0, 0, 0);
+        $isExpired = \Carbon\Carbon::now()->greaterThanOrEqualTo($deadline);
+    @endphp
+
     @if($tourists->isEmpty())
-        
         <div class="row px-2">
             <div class="col-xl-4 col-md-6">
-                <a href="{{ route('tourist.create') }}" class="text-decoration-none">
-                    <div class="card border-0 shadow-sm rounded-4 text-white overflow-hidden card-hover position-relative" 
-                         style="background: linear-gradient(135deg, #4e73df 0%, #224abe 100%); transition: all 0.3s;">
-                        <div class="card-body p-4 text-center">
-                            <div class="mb-3 opacity-50">
-                                <i class="fas fa-bus-alt fa-3x text-white"></i>
+                @if(!$isExpired)
+                    <a href="{{ route('tourist.create') }}" class="text-decoration-none">
+                        <div class="card border-0 shadow-sm rounded-4 text-white overflow-hidden card-hover position-relative" 
+                             style="background: linear-gradient(135deg, #4e73df 0%, #224abe 100%); transition: all 0.3s;">
+                            <div class="card-body p-4 text-center">
+                                <div class="mb-3 opacity-50">
+                                    <i class="fas fa-bus-alt fa-3x text-white"></i>
+                                </div>
+                                <h5 class="fw-bold mb-1 text-white">Register For Tour 2026</h5>
+                                <p class="small mb-3 text-white-50">Join our annual tour! Click here to start your application.</p>
+                                <span class="btn btn-light btn-sm fw-bold rounded-pill px-4 shadow-sm text-primary">
+                                    Register Now <i class="fas fa-arrow-right ms-1"></i>
+                                </span>
                             </div>
-                            <h5 class="fw-bold mb-1 text-white">Register For Tour 2026</h5>
-                            <p class="small mb-3 text-white-50">Join our annual tour! Click here to start your application.</p>
-                            <span class="btn btn-light btn-sm fw-bold rounded-pill px-4 shadow-sm text-primary">
-                                Register Now <i class="fas fa-arrow-right ms-1"></i>
-                            </span>
                         </div>
+                    </a>
+                @else
+                    <div class="card border-0 shadow-sm rounded-4 bg-white p-4 text-center">
+                        <div class="mb-3 text-danger opacity-50">
+                            <i class="fas fa-calendar-times fa-3x"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark">Registration Closed</h5>
+                        <p class="text-muted small">The deadline (19th Jan Midnight) has passed. Stay tuned for the next trip!</p>
+                        <span class="badge bg-danger-subtle text-danger p-2 rounded-pill small">Tour starts: 19th Night</span>
                     </div>
-                </a>
+                @endif
             </div>
         </div>
     @else
-        
         <div class="row g-4 mb-5 px-2">
             @foreach($tourists as $tourist)
             <div class="col-xl-4 col-lg-6">
@@ -39,7 +52,7 @@
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center mb-4">
                             <div class="rounded-3 p-3 me-3" style="background-color: #e0e7ff; color: #4e73df;">
-                                <i class="fas {{ $tourist->user_type == 'teacher' ? 'fa-chalkboard-teacher' : 'fa-user-graduate' }} fa-2x"></i>
+                                <i class="fas {{ in_array($tourist->course_id, [4, 5]) ? 'fa-chalkboard-teacher' : 'fa-user-graduate' }} fa-2x"></i>
                             </div>
                             <div>
                                 <h6 class="mb-0 fw-bold text-dark">{{ $tourist->name }}</h6>
@@ -63,11 +76,15 @@
                         
                         <div class="row g-3 mb-4 rounded-3 p-2 mx-0" style="background-color: #f8fafc; border: 1px solid #f1f5f9;">
                             <div class="col-6 border-end">
-                                <small class="text-muted d-block fw-bold text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.5px;">Course/Dept</small>
-                                <span class="text-dark fw-bold small">{{ $tourist->course->name ?? $tourist->department ?? 'N/A' }}</span>
+                                <small class="text-muted d-block fw-bold text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.5px;">Type</small>
+                                <span class="text-dark fw-bold small">
+                                    {{ $tourist->course_id == 4 ? 'Teacher' : ($tourist->course_id == 5 ? 'Staff' : 'Student') }}
+                                </span>
                             </div>
                             <div class="col-6 ps-3">
-                                <small class="text-muted d-block fw-bold text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.5px;">Batch/Role</small>
+                                <small class="text-muted d-block fw-bold text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.5px;">
+                                    {{ in_array($tourist->course_id, [4, 5]) ? 'Designation' : 'Batch' }}
+                                </small>
                                 <span class="text-dark fw-bold small">{{ $tourist->batch ?? 'N/A' }}</span>
                             </div>
                         </div>
@@ -83,7 +100,6 @@
             @endforeach
         </div>
 
-        
         <div class="card shadow-sm border-0 rounded-4 overflow-hidden mx-2">
             <div class="card-header py-3 bg-white border-bottom d-flex align-items-center justify-content-between">
                 <h6 class="m-0 fw-bold" style="color: #4e73df;">

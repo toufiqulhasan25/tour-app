@@ -14,6 +14,9 @@ Route::get('/gallery', function () {
 Route::get('/credits', function () {
     return view('landing.credits');
 })->name('landing.credits');
+Route::get('/itinerary', function () {
+    return view('landing.itinerary');
+})->name('landing.itinerary');
 
 Auth::routes();
 
