@@ -212,7 +212,7 @@
     <div class="position-absolute w-100" style="z-index: 999;">
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('home') }}">
+                <a class="navbar-brand" href="{{ route('landing.index') }}">
                     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2" style="height: 40px;"> NIYD
                 </a>
 

@@ -43,7 +43,7 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label text-light fw-medium small ps-1">Blood Group</label>
                             <select class="form-control glass-input form-select" name="blood_group">
-                                <option value="" selected disabled>Select Group</option>
+                                <option value="" selected disabled required>Select Group</option>
                                 <option value="A+">A+</option>
                                 <option value="A-">A-</option>
                                 <option value="B+">B+</option>
@@ -80,10 +80,16 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label text-light fw-medium small ps-1">Password</label>
-                            <input type="password" class="form-control glass-input" name="password"
-                                placeholder="Create Password" required>
+                            <input type="password" 
+                                   class="form-control glass-input" 
+                                   name="password"
+                                   id="password"
+                                   placeholder="Create Password" 
+                                   required>
+                            <div id="password-error" class="small mt-1" style="color: #ff6b6b; display: none;">
+                                <i class="fas fa-exclamation-circle me-1"></i> Password must be at least 8 characters.
+                            </div>
                         </div>
-
                         <div class="col-md-6 mb-4">
                             <label class="form-label text-light fw-medium small ps-1">Confirm Password</label>
                             <input type="password" class="form-control glass-input" name="password_confirmation"
@@ -104,4 +110,18 @@
             </div>
         </div>
     </div>
+
+    <script>
+    document.getElementById('password').addEventListener('input', function() {
+        const errorDiv = document.getElementById('password-error');
+        
+        if (this.value.length > 0 && this.value.length < 8) {
+            errorDiv.style.display = 'block';
+            this.style.borderColor = '#ff6b6b';
+        } else {
+            errorDiv.style.display = 'none';
+            this.style.borderColor = '';   
+        }
+    });
+    </script>
 @endsection

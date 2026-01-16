@@ -44,15 +44,32 @@
                                 <h3 class="fw-bold text-dark mb-1">{{ $student->name }}</h3>
                                 <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2 mt-2">
                                     @php
-                                        $idPrefix = $student->user_type == 'teacher' ? 'TR-' : ($student->user_type == 'staff' ? 'SF-' : 'ST-');
+                                        if ($student->course_id == 4) {
+                                            $idPrefix = 'TR-';
+                                            $userTypeText = 'Teacher';
+                                        } elseif ($student->course_id == 5) {
+                                            $idPrefix = 'SF-';
+                                            $userTypeText = 'Staff';
+                                        } else {
+                                            $idPrefix = 'ST-';
+                                            $userTypeText = 'Student';
+                                        }
                                     @endphp
-                                    <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">ID: {{ $idPrefix }}{{ $student->id + 2026000 }}</span>
-                                    <span class="badge px-3 py-2 rounded-pill" style="background-color: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe;">
-                                        Type: {{ ucfirst($student->user_type ?? 'Student') }}
+
+                                    {{-- ID Badge --}}
+                                    <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
+                                        ID: {{ $idPrefix }}{{ $student->id + 2026000 }}
                                     </span>
+
+                                    {{-- User Type Badge --}}
+                                    <span class="badge px-3 py-2 rounded-pill" style="background-color: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe;">
+                                        Type: {{ $userTypeText }}
+                                    </span>
+
+                                    {{-- Batch Badge --}}
                                     @if($student->batch)
                                         <span class="badge px-3 py-2 rounded-pill" style="background-color: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0;">
-                                            Batch: {{ $student->batch }}
+                                            {{ in_array($student->course_id, [4, 5]) ? 'Designation: ' : 'Batch: ' }}{{ $student->batch }}
                                         </span>
                                     @endif
                                 </div>
@@ -92,7 +109,7 @@
                             <div class="row g-4">
                                 <div class="col-md-6">
                                     <label class="small text-muted fw-bold text-uppercase">Email Address</label>
-                                    <p class="text-dark fw-semibold border-bottom pb-2">{{ $student->email ?? 'Not Provided' }}</p>
+                                    <p class="text-dark fw-semibold border-bottom pb-2">{{ auth()->user()->email ?? 'Not Provided' }}</p>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="small text-muted fw-bold text-uppercase">Phone Number</label>
@@ -123,17 +140,21 @@
                                     </h6>
                                 </div>
 
-                                @if($student->user_type == 'student')
+                                @if(!in_array($student->course_id, [4, 5]))
                                     <div class="mb-4">
                                         <label class="small text-muted fw-bold text-uppercase">Father's Name</label>
                                         <p class="text-dark fw-semibold mb-3">{{ $student->father_name }}</p>
+
                                         <label class="small text-muted fw-bold text-uppercase">Mother's Name</label>
                                         <p class="text-dark fw-semibold">{{ $student->mother_name }}</p>
                                     </div>
                                 @else
                                     <div class="mb-4">
-                                        <label class="small text-muted fw-bold text-uppercase">Department</label>
-                                        <p class="text-dark fw-bold mb-3"><i class="fas fa-briefcase me-2 text-muted"></i> {{ $student->department ?? 'General' }}</p>
+                                        <label class="small text-muted fw-bold text-uppercase">Designation / Role</label>
+                                        <p class="text-dark fw-bold mb-3">
+                                            <i class="fas fa-briefcase me-2 text-muted"></i> 
+                                            {{ $student->course->name ?? 'Staff/Teacher' }}
+                                        </p>
                                     </div>
                                 @endif
 

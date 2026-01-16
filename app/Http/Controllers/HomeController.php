@@ -110,16 +110,21 @@ class HomeController extends Controller
         return $pdf->download('Student_Profile_'.$student->id.'.pdf');
     }
 
-    public function showStudentProfile($id)
-    {
-        $student = Tourist::with('course')->findOrFail($id);
-    
-        if (!auth()->user()->isAdmin() && $student->user_id !== auth()->id()) {
-            abort(403, 'You are not authorized to view this profile.');
-        }
+public function showStudentProfile($id)
+{
+    $student = Tourist::with('course')->findOrFail($id);
+    $user = auth()->user();
 
-        return view('user.student', compact('student'));
+    if ($user->role_id != 1 && $student->user_id !== $user->id) {
+        abort(403, 'You are not authorized to view this profile.');
     }
+
+    if ($user->role_id == 1) {
+        return view('admin.student', compact('student'));
+    }
+
+    return view('user.student', compact('student'));
+}
 
     
 
