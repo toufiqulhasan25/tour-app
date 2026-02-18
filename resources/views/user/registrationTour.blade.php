@@ -93,11 +93,11 @@
                                 <h6 class="text-primary fw-bold text-uppercase mb-4">Guardian Details</h6>
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">FATHER'S NAME</label>
-                                    <input type="text" name="father_name" class="form-control border-0 bg-light py-2" placeholder="Enter name">
+                                    <input type="text" name="father_name" class="form-control border-0 bg-light py-2" placeholder="Enter name" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">MOTHER'S NAME</label>
-                                    <input type="text" name="mother_name" class="form-control border-0 bg-light py-2" placeholder="Enter name">
+                                    <input type="text" name="mother_name" class="form-control border-0 bg-light py-2" placeholder="Enter name" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">EMERGENCY CONTACT <span class="text-danger">*</span></label>
@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold text-muted">BATCH / DESIGNATION</label>
-                                    <input type="text" name="batch" class="form-control border-0 bg-light py-2" placeholder="Ex: Batch-04 or Lecturer">
+                                    <input type="text" name="batch" class="form-control border-0 bg-light py-2" placeholder="Ex: Batch-04 or Lecturer" required>
                                 </div>
                                 <div class="p-3 bg-light rounded shadow-sm border-start border-primary border-4">
                                     <small class="d-block text-muted fw-bold">CURRENT LOGGED IN AS:</small>
@@ -135,11 +135,11 @@
                         <div class="row g-3 mb-5">
                             <div class="col-md-4">
                                 <label class="form-label small fw-bold text-muted">DISTRICT</label>
-                                <input type="text" name="district" class="form-control border-0 bg-light py-2" placeholder="District name">
+                                <input type="text" name="district" class="form-control border-0 bg-light py-2" placeholder="District name" required>
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label small fw-bold text-muted">FULL ADDRESS</label>
-                                <input type="text" name="permanent_address" class="form-control border-0 bg-light py-2" placeholder="Village, Post Office, Upazila...">
+                                <input type="text" name="permanent_address" class="form-control border-0 bg-light py-2" placeholder="Village, Post Office, Upazila..." required>
                             </div>
                         </div>
 
