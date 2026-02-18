@@ -1,4 +1,3 @@
-
 @extends('landing')
 
 @section('body')
@@ -8,39 +7,58 @@
         <div class="container py-5 mt-5 position-relative" style="z-index: 2;">
             <div class="text-center mb-5">
                 <h1 class="main-title" style="font-size: 3.5rem;">Our Memories</h1>
-                <p class="description text-white opacity-75">
-                    Moments captured in time. Relive the adventure.
-                </p>
             </div>
 
-            <div class="row g-4">
-                {{-- Example Placeholders since real images aren't available yet --}}
-                @for ($i = 1; $i <= 6; $i++)
-                    <div class="col-md-4 col-sm-6">
-                        <div class="glass-card p-0 overflow-hidden h-100 border-0 shadow-lg text-center">
-                            {{-- Placeholder stylized block --}}
-                            <div
-                                style="height: 250px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; position: relative;">
-                                <i class="fa fa-image fa-3x" style="color: rgba(255,255,255,0.3);"></i>
-                                <span class="position-absolute bottom-0 start-0 w-100 p-3"
-                                    style="background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); color: white; text-align: left;">
-                                    <small class="fw-bold text-uppercase" style="letter-spacing: 1px;">Tour Highlight
-                                        #{{ $i }}</small>
-                                </span>
-                            </div>
-                            <div class="p-3 text-start">
-                                <p class="small text-white-50 m-0">
-                                    Captured during the great escape.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                @endfor
+            <div class="row g-4" id="image-container">
+                @include('landing.gallery_data')
             </div>
 
             <div class="text-center mt-5">
-                <button class="btn btn-adventure px-5">Load More <i class="fa fa-arrow-down ms-2"></i></button>
+                <button class="btn btn-adventure px-5" id="load-more" data-url="{{ route('landing.gallery') }}" data-page="1">
+                    Load More <i class="fa fa-arrow-down ms-2"></i>
+                </button>
+                <div id="loading-spinner" style="display: none;" class="text-white mt-3">Loading...</div>
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#load-more').click(function() {
+                let btn = $(this);
+                let page = btn.data('page') + 1;
+                let url = btn.data('url');
+
+                $.ajax({
+                    url: url + "?page=" + page,
+                    type: "get",
+                    beforeSend: function() {
+                        $('#loading-spinner').show();
+                        btn.hide();
+                    }
+                })
+                .done(function(data) {
+                    if (data.html == "") {
+                        btn.hide();
+                        $('#loading-spinner').html("No more memories to show.");
+                        return;
+                    }
+                    
+                    $('#loading-spinner').hide();
+                    $('#image-container').append(data.html); // নতুন ছবিগুলো নিচে যোগ হবে
+                    btn.data('page', page); // পেজ নাম্বার আপডেট
+                    
+                    if(data.nextPage) {
+                        btn.show();
+                    } else {
+                        btn.hide();
+                    }
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Server error, please try again.');
+                });
+            });
+        });
+    </script>
 @endsection

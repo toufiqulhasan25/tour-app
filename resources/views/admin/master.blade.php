@@ -47,9 +47,11 @@
                 position: fixed;
                 overflow: hidden;
             }
+
             #accordionSidebar.toggled {
                 width: 250px;
             }
+
             #content-wrapper {
                 margin-left: 0;
             }
@@ -70,14 +72,18 @@
             align-items: center;
         }
 
-        .nav-link:hover, .nav-item.active .nav-link {
+        .nav-link:hover,
+        .nav-item.active .nav-link {
             color: #fff !important;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
             margin: 0 10px;
         }
 
-        .nav-link i { margin-right: 10px; width: 20px; }
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+        }
 
         /* Topbar & Content */
         #content-wrapper {
@@ -120,126 +126,142 @@
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #d1d3e2; border-radius: 10px; }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d1d3e2;
+            border-radius: 10px;
+        }
     </style>
 </head>
 
 <body>
 
-<div id="wrapper">
-    <ul class="navbar-nav sidebar accordion" id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fa-solid fa-bus-simple"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3">Tour Admin</div>
-        </a>
-
-        <hr class="sidebar-divider my-0">
-
-        <div class="sidebar-heading mt-3 px-3">Management</div>
-
-        <li class="nav-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('admin.profile') }}">
-                <i class="fa-solid fa-address-card"></i>
-                <span>Profile</span>
+    <div id="wrapper">
+        <ul class="navbar-nav sidebar accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fa-solid fa-bus-simple"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Tour Admin</div>
             </a>
-        </li>
 
-        <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('home') }}">
-                <i class="fas fa-fw fa-users"></i>
-                <span>Students List</span>
-            </a>
-        </li>
+            <hr class="sidebar-divider my-0">
 
-        <li class="nav-item {{ request()->routeIs('courses.index') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('courses.index') }}">
-                <i class="fas fa-fw fa-book-open"></i>
-                <span>Courses</span>
-            </a>
-        </li>
+            <div class="sidebar-heading mt-3 px-3">Management</div>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('courses.courseWise', 4) }}">
-                <i class="fas fa-fw fa-chalkboard-teacher"></i>
-                <span>Teachers</span>
-            </a>
-        </li>
+            <li class="nav-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.profile') }}">
+                    <i class="fa-solid fa-address-card"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
 
-        <hr class="sidebar-divider d-none d-md-block">
-    </ul>
+            <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('home') }}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Students List</span>
+                </a>
+            </li>
 
-    <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content">
-            <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow-sm px-3 px-md-4">
-                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle me-3 border-0 bg-light">
-                    <i class="fa fa-bars text-primary"></i>
-                </button>
+            <li class="nav-item {{ request()->routeIs('courses.index') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('courses.index') }}">
+                    <i class="fas fa-fw fa-book-open"></i>
+                    <span>Courses</span>
+                </a>
+            </li>
 
-                
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('courses.courseWise', 4) }}">
+                    <i class="fas fa-fw fa-chalkboard-teacher"></i>
+                    <span>Teachers</span>
+                </a>
+            </li>
 
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                            <span class="me-2 d-none d-lg-inline text-dark small fw-bold">
-                                {{ auth()->user()->name }}
-                            </span>
-                            <div class="user-avatar shadow-sm">
-                                {{ substr(auth()->user()->name, 0, 1) }}
+            <li class="nav-item {{ request()->routeIs('gallery.create') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('gallery.create') }}">
+                    <i class="fas fa-fw fa-camera"></i>
+                    <span>Upload Photos</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider d-none d-md-block">
+        </ul>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow-sm px-3 px-md-4">
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle me-3 border-0 bg-light">
+                        <i class="fa fa-bars text-primary"></i>
+                    </button>
+
+
+
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown"
+                                role="button" data-bs-toggle="dropdown">
+                                <span class="me-2 d-none d-lg-inline text-dark small fw-bold">
+                                    {{ auth()->user()->name }}
+                                </span>
+                                <div class="user-avatar shadow-sm">
+                                    {{ substr(auth()->user()->name, 0, 1) }}
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end shadow border-0 animated--fade-in">
+                                <a class="dropdown-item py-2" href="{{ route('admin.profile') }}">
+                                    <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i> Profile
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item py-2 text-danger fw-bold" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw me-2"></i> Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf
+                                </form>
                             </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end shadow border-0 animated--fade-in">
-                            <a class="dropdown-item py-2" href="{{ route('admin.profile') }}">
-                                <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i> Profile
-                            </a>
-                            
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item py-2 text-danger fw-bold" href="{{ route('logout') }}"
-                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw me-2"></i> Logout
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
+                        </li>
+                    </ul>
+                </nav>
 
-            <div class="container-fluid">
-                @yield('content')
-            </div>
-        </div>
-
-        <footer class="sticky-footer bg-white mt-auto border-top shadow-sm-top">
-            <div class="container my-auto">
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-                    <div class="small text-muted mb-2 mb-md-0">
-                        &copy; {{ date('Y') }} <strong>NIYD</strong>. All rights reserved.
-                    </div>
-                    <div class="small d-flex align-items-center">
-                        <span class="text-muted">Made by</span>
-                        <span class="credit-pill shadow-sm">Web App Dev Batch-04</span>
-                    </div>
+                <div class="container-fluid">
+                    @yield('content')
                 </div>
             </div>
-        </footer>
+
+            <footer class="sticky-footer bg-white mt-auto border-top shadow-sm-top">
+                <div class="container my-auto">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                        <div class="small text-muted mb-2 mb-md-0">
+                            &copy; {{ date('Y') }} <strong>NIYD</strong>. All rights reserved.
+                        </div>
+                        <div class="small d-flex align-items-center">
+                            <span class="text-muted">Made by</span>
+                            <span class="credit-pill shadow-sm">Web App Dev Batch-04</span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Sidebar Toggle for Mobile
-    document.getElementById('sidebarToggleTop').addEventListener('click', function() {
-        document.getElementById('accordionSidebar').classList.toggle('toggled');
-    });
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sidebar Toggle for Mobile
+        document.getElementById('sidebarToggleTop').addEventListener('click', function () {
+            document.getElementById('accordionSidebar').classList.toggle('toggled');
+        });
 
-    // Tooltips initialization
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-</script>
+        // Tooltips initialization
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 
 </body>
+
 </html>
